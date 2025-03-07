@@ -36,10 +36,12 @@ func RunApplication(serviceName string, appFactory Factory) {
 	}
 
 	// Run
-	err = app.Run()
-	if err != nil {
-		zap.L().Fatal("application run failed", zap.Error(err))
-	}
+	// TODO: should use Fatal?
+	go func() {
+		if err := app.Run(); err != nil {
+			zap.L().Fatal("application run failed", zap.Error(err))
+		}
+	}()
 
 	// Stop
 	<-c

@@ -13,7 +13,7 @@ type DeferFunc func()
 
 // RunApplication run application and handle signals
 //
-//	Use this function in main functions to run application
+// Use this function in main functions to run application
 func RunApplication(serviceName string, appFactory Factory) {
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, syscall.SIGTERM, syscall.SIGINT) // SIGTERM: when k8s stop pod

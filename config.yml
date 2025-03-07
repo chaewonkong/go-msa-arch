@@ -1,0 +1,8 @@
+server:
+  port: 8081
+  mode: dev
+database:
+  user: root
+  password: password
+  host: localhost
+  port: 3306

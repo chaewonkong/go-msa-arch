@@ -1,6 +1,7 @@
 package server
 
 import (
+	"context"
 	"net/http"
 
 	"github.com/chaewonkong/go-msa-arch/internal/app"
@@ -51,6 +52,6 @@ func (s *Server) Run() error {
 }
 
 // Stop 서버 종료
-func (s *Server) Stop() error {
-	return s.svr.Close()
+func (s *Server) Stop(ctx context.Context) error {
+	return s.svr.Shutdown(ctx)
 }

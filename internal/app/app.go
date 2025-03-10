@@ -1,6 +1,7 @@
 package app
 
 import (
+	"context"
 	"os"
 	"os/signal"
 	"syscall"
@@ -15,6 +16,7 @@ type DeferFunc func()
 //
 // Use this function in main functions to run application
 func RunApplication(serviceName string, appFactory Factory) {
+	ctx := context.Background()
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, syscall.SIGTERM, syscall.SIGINT) // SIGTERM: when k8s stop pod
 
@@ -45,7 +47,7 @@ func RunApplication(serviceName string, appFactory Factory) {
 
 	// Stop
 	<-c
-	err = app.Stop()
+	err = app.Stop(ctx)
 	if err != nil {
 		zap.L().Fatal("application stop failed", zap.Error(err))
 	}
@@ -68,7 +70,7 @@ func initGlobalLogger(serviceName string) DeferFunc {
 // App app
 type App interface {
 	Run() error
-	Stop() error
+	Stop(context.Context) error
 }
 
 // Factory app factory

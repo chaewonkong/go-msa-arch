@@ -48,7 +48,11 @@ func newMux() *http.ServeMux {
 
 // Run 서버 실행
 func (s *Server) Run() error {
-	return s.svr.ListenAndServe()
+	err := s.svr.ListenAndServe()
+	if err != nil && err != http.ErrServerClosed {
+		return err
+	}
+	return nil
 }
 
 // Stop 서버 종료
